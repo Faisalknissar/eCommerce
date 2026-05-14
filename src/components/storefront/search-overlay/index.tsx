@@ -30,7 +30,10 @@ export function SearchOverlay() {
     if (searchOpen && inputRef.current) {
       setTimeout(() => inputRef.current?.focus(), 100);
     }
-    if (!searchOpen) setQuery("");
+    if (!searchOpen) {
+      const timeout = window.setTimeout(() => setQuery(""), 0);
+      return () => window.clearTimeout(timeout);
+    }
   }, [searchOpen]);
 
   // Keyboard shortcut

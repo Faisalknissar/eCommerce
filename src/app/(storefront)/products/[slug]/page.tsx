@@ -1,21 +1,34 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Star, ShoppingBag, Heart, ChevronRight, Minus, Plus, Truck, Shield, RotateCcw } from "lucide-react";
+import {
+  ChevronRight,
+  CreditCard,
+  Heart,
+  Minus,
+  Plus,
+  RotateCcw,
+  Shield,
+  ShoppingBag,
+  Star,
+  Truck,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/stores/cart-store";
+import { useUIStore } from "@/stores/ui-store";
 import { useWishlistStore } from "@/stores/wishlist-store";
-import { toast } from "sonner";
 
-// Mock product detail
 const product = {
   id: "1",
   name: "Quantum Pro Wireless Headphones",
   slug: "quantum-pro-wireless-headphones",
-  description: "Experience immersive audio with our flagship noise-cancelling wireless headphones. Featuring 40mm custom drivers, adaptive ANC, and 30-hour battery life. Designed for audiophiles who demand the best in comfort and sound quality.",
-  shortDescription: "Premium noise-cancelling wireless headphones with 30-hour battery life",
+  description:
+    "Experience immersive audio with flagship noise-cancelling wireless headphones, custom 40mm drivers, adaptive ANC, and 30-hour battery life.",
   basePrice: 12999,
   comparePrice: 18999,
   category: "Electronics",
@@ -23,16 +36,12 @@ const product = {
   rating: 4.5,
   reviewCount: 128,
   sku: "QP-WH-001",
-  tags: ["headphones", "wireless", "noise-cancelling", "bluetooth"],
   features: [
-    "40mm Custom Dynamic Drivers",
-    "Adaptive Active Noise Cancellation",
-    "30-Hour Battery Life",
-    "Bluetooth 5.3 with LDAC & aptX HD",
-    "Multi-point Connection",
-    "Hi-Res Audio Certified",
-    "Foldable Design with Premium Carrying Case",
-    "Touch Controls & Voice Assistant Support",
+    "40mm custom dynamic drivers",
+    "Adaptive active noise cancellation",
+    "30-hour battery life",
+    "Bluetooth 5.3 with LDAC and aptX HD",
+    "Premium carry case included",
   ],
   variants: [
     { id: "v1", name: "Midnight Black", price: 12999, stock: 45, color: "#1a1a1a" },
@@ -42,11 +51,22 @@ const product = {
 };
 
 export default function ProductDetailPage() {
+  const router = useRouter();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
   const addToCart = useCartStore((s) => s.addItem);
-  const { addItem: addToWishlist, isInWishlist, removeItem: removeFromWishlist } = useWishlistStore();
+  const setCartDrawerOpen = useUIStore((s) => s.setCartDrawerOpen);
+  const {
+    addItem: addToWishlist,
+    isInWishlist,
+    removeItem: removeFromWishlist,
+  } = useWishlistStore();
   const isWishlisted = isInWishlist(product.id);
+
+  const imageUrl = `/images/products/${product.slug}.png`;
+  const discount = Math.round(
+    ((product.comparePrice - selectedVariant.price) / product.comparePrice) * 100
+  );
 
   const handleAddToCart = () => {
     addToCart({
@@ -57,179 +77,234 @@ export default function ProductDetailPage() {
       price: selectedVariant.price,
       comparePrice: product.comparePrice,
       quantity,
-      imageUrl: `/images/products/${product.slug}.webp`,
+      imageUrl,
       productType: product.productType,
       maxStock: selectedVariant.stock,
     });
-    toast.success(`${product.name} added to cart!`);
+    setCartDrawerOpen(true);
+    toast.success(`${product.name} added to cart`);
+  };
+
+  const handleBuyNow = () => {
+    addToCart({
+      variantId: selectedVariant.id,
+      productId: product.id,
+      productName: product.name,
+      variantName: selectedVariant.name,
+      price: selectedVariant.price,
+      comparePrice: product.comparePrice,
+      quantity,
+      imageUrl,
+      productType: product.productType,
+      maxStock: selectedVariant.stock,
+    });
+    router.push("/checkout");
   };
 
   const handleWishlist = () => {
     if (isWishlisted) {
       removeFromWishlist(product.id);
       toast.info("Removed from wishlist");
-    } else {
-      addToWishlist({
-        productId: product.id,
-        productName: product.name,
-        price: product.basePrice,
-        comparePrice: product.comparePrice,
-        imageUrl: `/images/products/${product.slug}.webp`,
-        slug: product.slug,
-      });
-      toast.success("Added to wishlist!");
+      return;
     }
+
+    addToWishlist({
+      productId: product.id,
+      productName: product.name,
+      price: product.basePrice,
+      comparePrice: product.comparePrice,
+      imageUrl,
+      slug: product.slug,
+    });
+    toast.success("Added to wishlist");
   };
 
-  const discount = product.comparePrice
-    ? Math.round(((product.comparePrice - selectedVariant.price) / product.comparePrice) * 100)
-    : 0;
-
   return (
-    <div className="py-16">
+    <div className="py-10 lg:py-16">
       <div className="container-page">
-        {/* Breadcrumbs */}
         <motion.div
-          className="mb-10 flex items-center gap-2 text-sm"
-          style={{ color: "var(--theme-text-muted)" }}
+          className="mb-8 flex flex-wrap items-center gap-2 text-sm text-white/45"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <Link href="/" className="hover:text-white transition-colors">Home</Link>
+          <Link href="/" className="transition-colors hover:text-white">
+            Home
+          </Link>
           <ChevronRight className="h-3 w-3" />
-          <Link href="/products" className="hover:text-white transition-colors">Products</Link>
+          <Link href="/products" className="transition-colors hover:text-white">
+            Products
+          </Link>
           <ChevronRight className="h-3 w-3" />
-          <span style={{ color: "var(--theme-text-secondary)" }}>{product.name}</span>
+          <span className="text-white/70">{product.name}</span>
         </motion.div>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
-          {/* Image Gallery */}
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:gap-16">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            <div className="glass-card flex aspect-square items-center justify-center overflow-hidden bg-gradient-to-br from-purple-900/30 to-blue-900/30">
-              <div className="text-8xl opacity-40">🎧</div>
+            <div className="glass-card relative aspect-square overflow-hidden p-0">
+              <Image
+                src={imageUrl}
+                alt={product.name}
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover transition-transform duration-700 hover:scale-105"
+              />
+              <div className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+                Premium pick
+              </div>
             </div>
-            {/* Thumbnail strip */}
-            <div className="mt-4 flex gap-3">
-              {[1, 2, 3, 4].map((i) => (
+            <div className="mt-4 grid grid-cols-4 gap-3">
+              {[1, 2, 3, 4].map((item) => (
                 <div
-                  key={i}
-                  className="glass-card flex h-20 w-20 cursor-pointer items-center justify-center text-2xl opacity-60 hover:opacity-100 transition-opacity"
+                  key={item}
+                  className="glass-card relative aspect-square cursor-pointer overflow-hidden p-0 opacity-70 transition-opacity hover:opacity-100"
                 >
-                  🎧
+                  <Image
+                    src={imageUrl}
+                    alt={`${product.name} view ${item}`}
+                    fill
+                    sizes="120px"
+                    className="object-cover"
+                  />
                 </div>
               ))}
             </div>
           </motion.div>
 
-          {/* Product Info */}
           <motion.div
             className="space-y-6"
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5 }}
           >
-            {/* Category & Tags */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <span className="badge badge-accent">{product.category}</span>
-              {discount > 0 && <span className="badge badge-success">{discount}% OFF</span>}
+              <span className="badge badge-success">{discount}% off</span>
+              <span className="badge badge-info">In stock</span>
             </div>
 
-            {/* Title */}
-            <h1 className="text-2xl font-bold sm:text-3xl lg:text-4xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
-              {product.name}
-            </h1>
+            <div>
+              <h1 className="max-w-2xl text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+                {product.name}
+              </h1>
+              <p className="mt-4 text-base leading-relaxed text-white/65">
+                {product.description}
+              </p>
+            </div>
 
-            {/* Rating */}
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-3">
               <div className="flex">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
                     className="h-4 w-4"
-                    fill={i < Math.floor(product.rating) ? "var(--color-warning)" : "transparent"}
-                    style={{ color: i < Math.floor(product.rating) ? "var(--color-warning)" : "var(--theme-text-muted)" }}
+                    fill={
+                      i < Math.floor(product.rating)
+                        ? "var(--color-warning)"
+                        : "transparent"
+                    }
+                    style={{
+                      color:
+                        i < Math.floor(product.rating)
+                          ? "var(--color-warning)"
+                          : "var(--theme-text-muted)",
+                    }}
                   />
                 ))}
               </div>
-              <span className="text-sm font-medium">{product.rating}</span>
-              <span className="text-sm" style={{ color: "var(--theme-text-muted)" }}>({product.reviewCount} reviews)</span>
+              <span className="text-sm font-semibold">{product.rating}</span>
+              <span className="text-sm text-white/45">
+                {product.reviewCount} reviews
+              </span>
+              <span className="text-sm text-white/30">SKU {product.sku}</span>
             </div>
 
-            {/* Price */}
-            <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold gradient-text">{formatPrice(selectedVariant.price)}</span>
-              {product.comparePrice && (
-                <span className="text-lg line-through" style={{ color: "var(--theme-text-muted)" }}>
+            <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+              <div className="flex flex-wrap items-end gap-3">
+                <span className="text-4xl font-black gradient-text">
+                  {formatPrice(selectedVariant.price)}
+                </span>
+                <span className="pb-1 text-lg text-white/35 line-through">
                   {formatPrice(product.comparePrice)}
                 </span>
-              )}
+              </div>
+              <p className="mt-2 text-sm text-white/45">
+                Inclusive of taxes. Free delivery on eligible orders.
+              </p>
             </div>
 
-            {/* Description */}
-            <p className="leading-relaxed" style={{ color: "var(--theme-text-secondary)" }}>
-              {product.description}
-            </p>
-
-            {/* Color Variants */}
             <div>
-              <p className="mb-2 text-sm font-medium">Color: <span style={{ color: "var(--theme-accent-primary)" }}>{selectedVariant.name}</span></p>
+              <p className="mb-3 text-sm font-medium">
+                Color:{" "}
+                <span className="text-[var(--theme-accent-primary)]">
+                  {selectedVariant.name}
+                </span>
+              </p>
               <div className="flex gap-3">
                 {product.variants.map((variant) => (
                   <motion.button
                     key={variant.id}
                     onClick={() => setSelectedVariant(variant)}
-                    className="relative h-10 w-10 rounded-full border-2 transition-all"
+                    className="relative h-11 w-11 rounded-full border-2 transition-all"
                     style={{
                       backgroundColor: variant.color,
-                      borderColor: selectedVariant.id === variant.id ? "var(--theme-accent-primary)" : "rgba(255,255,255,0.1)",
-                      boxShadow: selectedVariant.id === variant.id ? "0 0 10px rgba(139, 92, 246, 0.4)" : "none",
+                      borderColor:
+                        selectedVariant.id === variant.id
+                          ? "var(--theme-accent-primary)"
+                          : "rgba(255,255,255,0.16)",
+                      boxShadow:
+                        selectedVariant.id === variant.id
+                          ? "0 0 0 4px rgba(139, 92, 246, 0.16)"
+                          : "none",
                     }}
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
+                    whileHover={{ scale: 1.08 }}
+                    whileTap={{ scale: 0.95 }}
                     aria-label={variant.name}
                   />
                 ))}
               </div>
             </div>
 
-            {/* Quantity */}
             <div>
-              <p className="mb-2 text-sm font-medium">Quantity</p>
-              <div className="flex items-center gap-3">
-                <div className="glass flex items-center rounded-lg">
+              <p className="mb-3 text-sm font-medium">Quantity</p>
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex items-center rounded-full border border-white/10 bg-black/20 p-1">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="btn-ghost p-2.5"
+                    className="btn-ghost rounded-full p-2.5"
                     disabled={quantity <= 1}
+                    aria-label="Decrease quantity"
                   >
                     <Minus className="h-4 w-4" />
                   </button>
-                  <span className="w-12 text-center font-medium">{quantity}</span>
+                  <span className="w-12 text-center font-bold">{quantity}</span>
                   <button
-                    onClick={() => setQuantity(Math.min(selectedVariant.stock, quantity + 1))}
-                    className="btn-ghost p-2.5"
+                    onClick={() =>
+                      setQuantity(Math.min(selectedVariant.stock, quantity + 1))
+                    }
+                    className="btn-ghost rounded-full p-2.5"
                     disabled={quantity >= selectedVariant.stock}
+                    aria-label="Increase quantity"
                   >
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
-                <span className="text-xs" style={{ color: "var(--theme-text-muted)" }}>
-                  {selectedVariant.stock} in stock
+                <span className="text-xs text-white/45">
+                  {selectedVariant.stock} units available
                 </span>
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex gap-3">
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-[1fr_auto_auto]">
               <motion.button
                 onClick={handleAddToCart}
-                className="btn-primary flex-1 py-3.5 text-base"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                className="btn-primary py-4 text-base"
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
               >
                 <span className="relative z-10 flex items-center justify-center gap-2">
                   <ShoppingBag className="h-5 w-5" />
@@ -237,50 +312,65 @@ export default function ProductDetailPage() {
                 </span>
               </motion.button>
               <motion.button
+                onClick={handleBuyNow}
+                className="btn-secondary h-full px-6 py-4 text-base"
+                whileHover={{ scale: 1.015 }}
+                whileTap={{ scale: 0.985 }}
+              >
+                <CreditCard className="h-5 w-5" />
+                Buy Now
+              </motion.button>
+              <motion.button
                 onClick={handleWishlist}
-                className="btn-secondary p-3.5"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+                className="btn-secondary px-5 py-4"
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                aria-label="Toggle wishlist"
               >
                 <Heart
                   className="h-5 w-5"
-                  fill={isWishlisted ? "var(--theme-accent-tertiary)" : "transparent"}
-                  style={{ color: isWishlisted ? "var(--theme-accent-tertiary)" : "currentColor" }}
+                  fill={
+                    isWishlisted
+                      ? "var(--theme-accent-tertiary)"
+                      : "transparent"
+                  }
+                  style={{
+                    color: isWishlisted
+                      ? "var(--theme-accent-tertiary)"
+                      : "currentColor",
+                  }}
                 />
               </motion.button>
             </div>
 
-            {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-3 pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
               {[
-                { icon: Truck, label: "Free Shipping", sub: "Above ₹999" },
-                { icon: Shield, label: "Secure Payment", sub: "100% protected" },
+                { icon: Truck, label: "Free Shipping", sub: "Above INR 999" },
+                { icon: Shield, label: "Secure Pay", sub: "Protected" },
                 { icon: RotateCcw, label: "Easy Returns", sub: "7-day policy" },
               ].map(({ icon: Icon, label, sub }) => (
-                <div key={label} className="flex flex-col items-center gap-1 text-center">
-                  <Icon className="h-5 w-5" style={{ color: "var(--theme-accent-primary)" }} />
-                  <p className="text-xs font-medium">{label}</p>
-                  <p className="text-[10px]" style={{ color: "var(--theme-text-muted)" }}>{sub}</p>
+                <div
+                  key={label}
+                  className="rounded-lg border border-white/10 bg-white/[0.03] p-3 text-center"
+                >
+                  <Icon className="mx-auto h-5 w-5 text-[var(--theme-accent-primary)]" />
+                  <p className="mt-2 text-xs font-bold">{label}</p>
+                  <p className="text-[10px] text-white/40">{sub}</p>
                 </div>
               ))}
             </div>
 
-            {/* Features */}
-            <div className="pt-4" style={{ borderTop: "1px solid rgba(255,255,255,0.06)" }}>
+            <div className="border-t border-white/10 pt-5">
               <h3 className="mb-3 text-lg font-bold">Key Features</h3>
-              <ul className="space-y-2">
-                {product.features.map((feature, i) => (
-                  <motion.li
-                    key={i}
-                    className="flex items-start gap-2 text-sm"
-                    style={{ color: "var(--theme-text-secondary)" }}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.1 * i }}
+              <ul className="grid gap-2 sm:grid-cols-2">
+                {product.features.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-2 text-sm text-white/65"
                   >
-                    <span className="mt-1.5 h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "var(--theme-accent-primary)" }} />
+                    <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--theme-accent-primary)]" />
                     {feature}
-                  </motion.li>
+                  </li>
                 ))}
               </ul>
             </div>

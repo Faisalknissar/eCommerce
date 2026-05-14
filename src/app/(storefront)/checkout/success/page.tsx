@@ -1,26 +1,24 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, Package, ArrowRight, Home, ShoppingBag, Heart } from "lucide-react";
+import { CheckCircle2, Package, Home, ShoppingBag, Heart, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 
 export default function CheckoutSuccessPage() {
-  const [orderNumber, setOrderNumber] = useState("");
+  const [orderNumber] = useState(
+    () => `NX-${Math.floor(100000 + Math.random() * 900000)}`
+  );
 
   useEffect(() => {
-    // Generate a random order number for demo
-    setOrderNumber(`NX-${Math.floor(100000 + Math.random() * 900000)}`);
-
-    // Trigger confetti
     const duration = 3 * 1000;
     const animationEnd = Date.now() + duration;
     const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
 
     const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
 
-    const interval: any = setInterval(function() {
+    const interval: ReturnType<typeof setInterval> = setInterval(function() {
       const timeLeft = animationEnd - Date.now();
 
       if (timeLeft <= 0) {

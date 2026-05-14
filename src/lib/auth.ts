@@ -13,6 +13,10 @@ const loginSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
+type AuthUserWithRole = {
+  role?: string;
+};
+
 console.log("[AUTH LIB] Initializing NextAuth");
 console.log("[AUTH ROUTE] Catch-all route hit");
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -77,14 +81,14 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as any).role as string;
+        token.role = (user as AuthUserWithRole).role;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
-        (session.user as any).role = token.role as string;
+        (session.user as AuthUserWithRole).role = token.role as string | undefined;
       }
       return session;
     },

@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ShoppingBag, Trash2, Minus, Plus, ArrowRight, Tag, ShoppingCart, ShieldCheck, Truck, RefreshCw } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/stores/cart-store";
 import { formatPrice } from "@/lib/utils";
@@ -15,7 +16,7 @@ const fadeIn = {
 };
 
 export default function CartPage() {
-  const { items, removeItem, updateQuantity, getSubtotal, getTotal, couponCode, couponDiscount, removeCoupon } = useCartStore();
+  const { items, removeItem, updateQuantity, getSubtotal, getTotal, couponCode, couponDiscount, applyCoupon, removeCoupon } = useCartStore();
   const [promoCode, setPromoCode] = useState("");
 
   const subtotal = getSubtotal();
@@ -23,6 +24,15 @@ export default function CartPage() {
   const shipping = subtotal >= 999 ? 0 : 99;
   const tax = Math.round(subtotal * 0.18);
   const grandTotal = total + shipping + tax;
+  const handleApplyCoupon = () => {
+    if (promoCode.trim().toUpperCase() !== "WELCOME10") {
+      toast.error("Coupon code is not valid");
+      return;
+    }
+
+    applyCoupon("WELCOME10", Math.round(subtotal * 0.1));
+    toast.success("WELCOME10 applied");
+  };
 
   if (items.length === 0) {
     return (
@@ -111,7 +121,14 @@ export default function CartPage() {
                   {/* Product Info */}
                   <div className="flex items-center gap-6 md:col-span-6">
                     <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/[0.02]">
-                      <div className="absolute inset-0 flex items-center justify-center text-4xl grayscale transition-all group-hover:grayscale-0 group-hover:scale-110">
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.productName}
+                        fill
+                        sizes="112px"
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="hidden">
                         {item.productType === "digital" ? "💾" : item.productType === "service" ? "🎯" : "📦"}
                       </div>
                     </div>
@@ -232,7 +249,12 @@ export default function CartPage() {
                         className="w-full rounded-xl bg-white/5 border border-white/5 py-3 pl-11 text-sm font-medium focus:border-[var(--theme-accent-primary)] focus:outline-none transition-all"
                       />
                     </div>
-                    <button className="btn-secondary px-6 rounded-xl text-sm font-bold uppercase tracking-widest">Apply</button>
+                    <button
+                      className="btn-secondary px-6 rounded-xl text-sm font-bold uppercase tracking-widest"
+                      onClick={handleApplyCoupon}
+                    >
+                      Apply
+                    </button>
                   </div>
 
                   <Link href="/checkout" className="block">
@@ -268,4 +290,3 @@ export default function CartPage() {
     </div>
   );
 }
-

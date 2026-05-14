@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
   Search,
   SlidersHorizontal,
@@ -15,6 +16,9 @@ import {
   ChevronDown,
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils";
+import { useCartStore } from "@/stores/cart-store";
+import { useUIStore } from "@/stores/ui-store";
+import { toast } from "sonner";
 
 // Mock products for initial display
 const mockProducts = [
@@ -30,6 +34,7 @@ const mockProducts = [
     productType: "physical",
     tag: "Best Seller",
     gradient: "from-purple-900/30 to-blue-900/30",
+    imageUrl: "/images/products/quantum-pro-wireless-headphones.png",
   },
   {
     id: "2",
@@ -43,6 +48,7 @@ const mockProducts = [
     productType: "physical",
     tag: "New",
     gradient: "from-cyan-900/30 to-teal-900/30",
+    imageUrl: "/images/products/neovibe-smart-watch-ultra.png",
   },
   {
     id: "3",
@@ -56,6 +62,7 @@ const mockProducts = [
     productType: "physical",
     tag: "Trending",
     gradient: "from-pink-900/30 to-rose-900/30",
+    imageUrl: "/images/products/aether-premium-leather-jacket.png",
   },
   {
     id: "4",
@@ -69,6 +76,7 @@ const mockProducts = [
     productType: "digital",
     tag: "62% Off",
     gradient: "from-amber-900/30 to-orange-900/30",
+    imageUrl: "/images/products/full-stack-development-masterclass.png",
   },
   {
     id: "5",
@@ -82,6 +90,7 @@ const mockProducts = [
     productType: "physical",
     tag: "Sale",
     gradient: "from-green-900/30 to-emerald-900/30",
+    imageUrl: "/images/products/lumina-smart-home-hub-pro.png",
   },
   {
     id: "6",
@@ -95,6 +104,7 @@ const mockProducts = [
     productType: "service",
     tag: "Expert",
     gradient: "from-violet-900/30 to-purple-900/30",
+    imageUrl: "/images/products/ui-ux-design-consultation.png",
   },
   {
     id: "7",
@@ -108,6 +118,7 @@ const mockProducts = [
     productType: "physical",
     tag: null,
     gradient: "from-slate-900/30 to-gray-900/30",
+    imageUrl: "/images/products/zen-minimalist-desk-lamp.png",
   },
   {
     id: "8",
@@ -121,6 +132,7 @@ const mockProducts = [
     productType: "physical",
     tag: null,
     gradient: "from-red-900/30 to-orange-900/30",
+    imageUrl: "/images/products/proflex-yoga-mat-premium.png",
   },
 ];
 
@@ -139,6 +151,25 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState("featured");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [showFilters, setShowFilters] = useState(false);
+  const addToCart = useCartStore((s) => s.addItem);
+  const setCartDrawerOpen = useUIStore((s) => s.setCartDrawerOpen);
+
+  const handleQuickAdd = (product: (typeof mockProducts)[number]) => {
+    addToCart({
+      variantId: `${product.id}-default`,
+      productId: product.id,
+      productName: product.name,
+      variantName: "Standard",
+      price: product.price,
+      comparePrice: product.comparePrice,
+      quantity: 1,
+      imageUrl: product.imageUrl,
+      productType: product.productType,
+      maxStock: 99,
+    });
+    setCartDrawerOpen(true);
+    toast.success(`${product.name} added to cart`);
+  };
 
   const filteredProducts = mockProducts
     .filter((p) => {
@@ -341,11 +372,19 @@ export default function ProductsPage() {
                       >
                         {/* Image */}
                         <div
-                          className={`relative flex items-center justify-center bg-gradient-to-br ${product.gradient} ${
+                          className={`relative overflow-hidden bg-gradient-to-br ${product.gradient} ${
                             viewMode === "list" ? "h-36 w-36 shrink-0 sm:h-40 sm:w-40" : "h-52"
                           }`}
                         >
-                          <div className="text-5xl opacity-30">
+                          <Image
+                            src={product.imageUrl}
+                            alt={product.name}
+                            fill
+                            sizes={viewMode === "list" ? "160px" : "(min-width: 1280px) 33vw, (min-width: 640px) 50vw, 100vw"}
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
+                          <div className="hidden">
                             {product.productType === "digital" ? "💾" : product.productType === "service" ? "🎯" : "📦"}
                           </div>
 
@@ -361,12 +400,16 @@ export default function ProductsPage() {
                           )}
 
                           {/* Quick Actions */}
-                          <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-0 transition-opacity group-hover:opacity-100">
+                          <div className="absolute bottom-3 right-3 flex gap-1.5 opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100">
                             <motion.button
                               className="glass flex h-8 w-8 items-center justify-center rounded-full"
                               whileHover={{ scale: 1.1 }}
                               whileTap={{ scale: 0.9 }}
-                              onClick={(e) => e.preventDefault()}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleQuickAdd(product);
+                              }}
+                              aria-label={`Add ${product.name} to cart`}
                             >
                               <Heart className="h-3.5 w-3.5" />
                             </motion.button>

@@ -13,16 +13,16 @@ const footerLinks = {
     { label: "Offers & Deals", href: "/products?sale=true" },
   ],
   support: [
-    { label: "Contact Us", href: "/contact" },
-    { label: "FAQs", href: "/faq" },
-    { label: "Shipping Info", href: "/shipping" },
-    { label: "Returns & Refunds", href: "/returns" },
+    { label: "My Account", href: "/account" },
+    { label: "My Orders", href: "/orders" },
+    { label: "Shopping Cart", href: "/cart" },
+    { label: "Wishlist", href: "/wishlist" },
   ],
   company: [
-    { label: "About Us", href: "/about" },
-    { label: "Careers", href: "/careers" },
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
+    { label: "Sign In", href: "/login" },
+    { label: "Create Account", href: "/register" },
+    { label: "Categories", href: "/categories" },
+    { label: "Admin", href: "/admin" },
   ],
 };
 

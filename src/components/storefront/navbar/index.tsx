@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -13,7 +13,6 @@ import {
   ChevronDown,
   LogOut,
   Package,
-  Settings,
   LayoutDashboard,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
@@ -22,21 +21,22 @@ import { useWishlistStore } from "@/stores/wishlist-store";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
 import { APP_NAME, NAV_LINKS } from "@/lib/constants";
-import { CartDropdown } from "./cart-dropdown";
 
 export function Navbar() {
   const { data: session } = useSession();
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const [scrolled, setScrolled] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [cartDropdownOpen, setCartDropdownOpenState] = useState(false);
   const { mobileMenuOpen, setMobileMenuOpen, setSearchOpen, setCartDrawerOpen } = useUIStore();
   const cartItemCount = useCartStore((s) => s.getItemCount());
   const wishlistCount = useWishlistStore((s) => s.items.length);
   const userRole = (session?.user as Record<string, unknown>)?.role as string | undefined;
 
   useEffect(() => {
-    setMounted(true);
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
@@ -126,10 +126,7 @@ export function Navbar() {
 
               <div className="relative">
                 <motion.button
-                  onClick={() => {
-                    setCartDrawerOpen(true);
-                    setCartDropdownOpenState(!cartDropdownOpen);
-                  }}
+                  onClick={() => setCartDrawerOpen(true)}
                   className="btn-ghost relative p-2.5"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -148,13 +145,6 @@ export function Navbar() {
                     </motion.span>
                   )}
                 </motion.button>
-
-                <div className="hidden md:block">
-                  <CartDropdown
-                    isOpen={cartDropdownOpen}
-                    onClose={() => setCartDropdownOpenState(false)}
-                  />
-                </div>
               </div>
 
               {/* User Menu */}
