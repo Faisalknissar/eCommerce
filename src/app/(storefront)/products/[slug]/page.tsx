@@ -16,12 +16,14 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { formatPrice } from "@/lib/utils";
 import { useCartStore } from "@/stores/cart-store";
 import { useUIStore } from "@/stores/ui-store";
 import { useWishlistStore } from "@/stores/wishlist-store";
+import { ProductImageZoom } from "@/components/storefront/product-image-zoom";
+import { ProductReviews } from "@/components/storefront/product-reviews";
 
 const product = {
   id: "1",
@@ -54,6 +56,11 @@ export default function ProductDetailPage() {
   const router = useRouter();
   const [selectedVariant, setSelectedVariant] = useState(product.variants[0]);
   const [quantity, setQuantity] = useState(1);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const addToCart = useCartStore((s) => s.addItem);
   const setCartDrawerOpen = useUIStore((s) => s.setCartDrawerOpen);
   const {
@@ -119,23 +126,30 @@ export default function ProductDetailPage() {
     toast.success("Added to wishlist");
   };
 
+  const scrollToReviews = () => {
+    const element = document.getElementById("reviews");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <div className="py-10 lg:py-16">
+    <div className="py-6 lg:py-8 mb-24">
       <div className="container-page">
         <motion.div
-          className="mb-8 flex flex-wrap items-center gap-2 text-sm text-white/45"
+          className="mb-5 flex flex-wrap items-center gap-2 text-sm text-text-muted"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
-          <Link href="/" className="transition-colors hover:text-white">
+          <Link href="/" className="transition-colors hover:text-text-primary">
             Home
           </Link>
           <ChevronRight className="h-3 w-3" />
-          <Link href="/products" className="transition-colors hover:text-white">
+          <Link href="/products" className="transition-colors hover:text-text-primary">
             Products
           </Link>
           <ChevronRight className="h-3 w-3" />
-          <span className="text-white/70">{product.name}</span>
+          <span className="text-text-secondary">{product.name}</span>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,0.95fr)] lg:gap-16">
@@ -144,16 +158,9 @@ export default function ProductDetailPage() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="glass-card relative aspect-square overflow-hidden p-0">
-              <Image
-                src={imageUrl}
-                alt={product.name}
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover transition-transform duration-700 hover:scale-105"
-              />
-              <div className="absolute left-4 top-4 rounded-full bg-black/55 px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur-md">
+            <div className="glass-card relative aspect-square overflow-hidden rounded-2xl border-none p-0 bg-transparent shadow-none">
+              <ProductImageZoom src={imageUrl} alt={product.name} />
+              <div className="absolute left-4 top-4 z-20 rounded-full bg-black/55 px-3 py-1 text-xs font-bold uppercase tracking-wider backdrop-blur-md text-white">
                 Premium pick
               </div>
             </div>
@@ -176,7 +183,7 @@ export default function ProductDetailPage() {
           </motion.div>
 
           <motion.div
-            className="space-y-6"
+            className="flex flex-col gap-3 lg:gap-4"
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
@@ -187,11 +194,11 @@ export default function ProductDetailPage() {
               <span className="badge badge-info">In stock</span>
             </div>
 
-            <div>
-              <h1 className="max-w-2xl text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl">
+            <div className="space-y-2">
+              <h1 className="max-w-2xl text-3xl font-black tracking-tight sm:text-4xl lg:text-5xl text-text-primary">
                 {product.name}
               </h1>
-              <p className="mt-4 text-base leading-relaxed text-white/65">
+              <p className="text-base leading-relaxed text-text-secondary">
                 {product.description}
               </p>
             </div>
@@ -204,35 +211,38 @@ export default function ProductDetailPage() {
                     className="h-4 w-4"
                     fill={
                       i < Math.floor(product.rating)
-                        ? "var(--color-warning)"
+                        ? "#ffa41c"
                         : "transparent"
                     }
                     style={{
                       color:
                         i < Math.floor(product.rating)
-                          ? "var(--color-warning)"
+                          ? "#ffa41c"
                           : "var(--theme-text-muted)",
                     }}
                   />
                 ))}
               </div>
               <span className="text-sm font-semibold">{product.rating}</span>
-              <span className="text-sm text-white/45">
+              <button 
+                onClick={scrollToReviews}
+                className="text-sm text-text-muted transition-colors hover:text-[var(--theme-accent-primary)] hover:underline"
+              >
                 {product.reviewCount} reviews
-              </span>
-              <span className="text-sm text-white/30">SKU {product.sku}</span>
+              </button>
+              <span className="text-sm text-text-muted/60">SKU {product.sku}</span>
             </div>
 
-            <div className="rounded-lg border border-white/10 bg-white/[0.03] p-5">
+            <div className="rounded-lg border border-border bg-surface p-4">
               <div className="flex flex-wrap items-end gap-3">
                 <span className="text-4xl font-black gradient-text">
                   {formatPrice(selectedVariant.price)}
                 </span>
-                <span className="pb-1 text-lg text-white/35 line-through">
+                <span className="pb-1 text-lg text-text-muted/60 line-through">
                   {formatPrice(product.comparePrice)}
                 </span>
               </div>
-              <p className="mt-2 text-sm text-white/45">
+              <p className="mt-2 text-sm text-text-muted">
                 Inclusive of taxes. Free delivery on eligible orders.
               </p>
             </div>
@@ -272,7 +282,7 @@ export default function ProductDetailPage() {
             <div>
               <p className="mb-3 text-sm font-medium">Quantity</p>
               <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center rounded-full border border-white/10 bg-black/20 p-1">
+                <div className="flex items-center rounded-full border border-border bg-surface-elevated p-1">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="btn-ghost rounded-full p-2.5"
@@ -293,7 +303,7 @@ export default function ProductDetailPage() {
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
-                <span className="text-xs text-white/45">
+                <span className="text-xs text-text-muted">
                   {selectedVariant.stock} units available
                 </span>
               </div>
@@ -330,12 +340,12 @@ export default function ProductDetailPage() {
                 <Heart
                   className="h-5 w-5"
                   fill={
-                    isWishlisted
+                    mounted && isWishlisted
                       ? "var(--theme-accent-tertiary)"
                       : "transparent"
                   }
                   style={{
-                    color: isWishlisted
+                    color: mounted && isWishlisted
                       ? "var(--theme-accent-tertiary)"
                       : "currentColor",
                   }}
@@ -343,7 +353,8 @@ export default function ProductDetailPage() {
               </motion.button>
             </div>
 
-            <div className="grid grid-cols-3 gap-3 border-t border-white/10 pt-5">
+            <div className="mt-12 border-t border-border" />
+            <div className="grid grid-cols-3 gap-3 pt-12 pb-8">
               {[
                 { icon: Truck, label: "Free Shipping", sub: "Above INR 999" },
                 { icon: Shield, label: "Secure Pay", sub: "Protected" },
@@ -351,22 +362,23 @@ export default function ProductDetailPage() {
               ].map(({ icon: Icon, label, sub }) => (
                 <div
                   key={label}
-                  className="rounded-lg border border-white/10 bg-white/[0.03] p-3 text-center"
+                  className="rounded-lg border border-border bg-surface p-3 text-center"
                 >
                   <Icon className="mx-auto h-5 w-5 text-[var(--theme-accent-primary)]" />
-                  <p className="mt-2 text-xs font-bold">{label}</p>
-                  <p className="text-[10px] text-white/40">{sub}</p>
+                  <p className="mt-2 text-xs font-bold text-text-primary">{label}</p>
+                  <p className="text-[10px] text-text-muted">{sub}</p>
                 </div>
               ))}
             </div>
 
-            <div className="border-t border-white/10 pt-5">
-              <h3 className="mb-3 text-lg font-bold">Key Features</h3>
+            <div className="mt-12 border-t border-border" />
+            <div className="pt-12">
+              <h3 className="mb-3 text-lg font-bold text-text-primary">Key Features</h3>
               <ul className="grid gap-2 sm:grid-cols-2">
                 {product.features.map((feature) => (
                   <li
                     key={feature}
-                    className="flex items-start gap-2 text-sm text-white/65"
+                    className="flex items-start gap-2 text-sm text-text-secondary"
                   >
                     <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--theme-accent-primary)]" />
                     {feature}
@@ -374,6 +386,7 @@ export default function ProductDetailPage() {
                 ))}
               </ul>
             </div>
+            <ProductReviews />
           </motion.div>
         </div>
       </div>

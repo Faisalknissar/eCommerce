@@ -47,9 +47,9 @@ export default function CategoriesPage() {
                     <div>
                       <span className="text-4xl">{cat.icon}</span>
                       <h3 className="mt-4 text-xl font-bold">{cat.name}</h3>
-                      <p className="mt-1 text-sm text-white/60">{cat.count} Products</p>
+                      <p className="mt-1 text-sm text-text-muted">{cat.count} Products</p>
                     </div>
-                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/5 transition-colors group-hover:bg-white/10">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-surface transition-colors group-hover:bg-surface-elevated">
                       <ChevronRight className="h-6 w-6" />
                     </div>
                   </div>

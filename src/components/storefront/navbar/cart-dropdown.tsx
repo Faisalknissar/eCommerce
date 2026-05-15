@@ -23,17 +23,17 @@ export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
           <div className="fixed inset-0 z-40" onClick={onClose} />
 
           <motion.div
-            className="absolute right-0 top-full z-50 mt-4 w-[400px] overflow-hidden rounded-lg border border-white/10 bg-[var(--theme-bg-secondary)] shadow-2xl"
+            className="absolute right-0 top-full z-50 mt-4 w-[400px] overflow-hidden rounded-lg border border-border bg-[var(--theme-bg-secondary)] shadow-2xl"
             initial={{ opacity: 0, y: 10, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.96 }}
             transition={{ duration: 0.18, ease: "easeOut" }}
           >
-            <div className="flex items-center justify-between border-b border-white/10 bg-white/[0.03] px-5 py-4">
-              <span className="text-sm font-bold uppercase tracking-wider text-white/60">
+            <div className="flex items-center justify-between border-b border-border bg-surface-elevated px-5 py-4">
+              <span className="text-sm font-bold uppercase tracking-wider text-secondary">
                 Shopping Bag
               </span>
-              <span className="rounded-full bg-white/5 px-2 py-0.5 text-xs font-medium">
+              <span className="rounded-full bg-secondary px-2 py-0.5 text-xs font-medium text-primary">
                 {items.length} Items
               </span>
             </div>
@@ -41,10 +41,10 @@ export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
             <div className="max-h-[350px] overflow-y-auto px-5 py-4">
               {items.length === 0 ? (
                 <div className="py-12 text-center">
-                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-white/5">
-                    <ShoppingBag className="h-8 w-8 text-white/25" />
+                  <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-surface">
+                    <ShoppingBag className="h-8 w-8 text-text-muted/40" />
                   </div>
-                  <p className="text-sm font-medium text-white/50">
+                  <p className="text-sm font-medium text-secondary">
                     Your bag is empty
                   </p>
                   <Link
@@ -62,7 +62,7 @@ export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
                       key={`${item.productId}-${item.variantId}`}
                       className="group flex gap-4"
                     >
-                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-white/5">
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-lg bg-surface">
                         <Image
                           src={item.imageUrl}
                           alt={item.productName}
@@ -85,7 +85,7 @@ export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
                           </button>
                         </div>
                         <div className="mt-1 flex items-center justify-between">
-                          <p className="text-xs text-white/45">
+                          <p className="text-xs text-muted">
                             {item.quantity} x {formatPrice(item.price)}
                           </p>
                           <p className="text-xs font-bold">
@@ -100,9 +100,9 @@ export function CartDropdown({ isOpen, onClose }: CartDropdownProps) {
             </div>
 
             {items.length > 0 && (
-              <div className="space-y-4 border-t border-white/10 bg-white/[0.02] px-5 py-5">
+              <div className="space-y-4 border-t border-border bg-surface-muted px-5 py-5">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-medium uppercase tracking-wider text-white/60">
+                  <span className="text-xs font-medium uppercase tracking-wider text-secondary">
                     Subtotal
                   </span>
                   <span className="text-lg font-black gradient-text">

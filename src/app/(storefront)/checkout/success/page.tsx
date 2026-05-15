@@ -70,8 +70,8 @@ export default function CheckoutSuccessPage() {
             </p>
 
             {/* Order Details Card */}
-            <div className="mx-auto max-w-md rounded-2xl bg-white/5 border border-white/5 p-6 mb-12">
-              <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-4">
+            <div className="mx-auto max-w-md rounded-2xl bg-surface border border-border p-6 mb-12">
+              <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
                 <span className="text-xs font-bold uppercase tracking-widest opacity-40">Order Number</span>
                 <span className="font-mono text-lg font-bold text-[var(--theme-accent-primary)]">{orderNumber}</span>
               </div>
@@ -87,7 +87,7 @@ export default function CheckoutSuccessPage() {
             {/* Next Steps */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 text-left">
               <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-elevated">
                   <Package className="h-5 w-5 opacity-40" />
                 </div>
                 <div>
@@ -96,7 +96,7 @@ export default function CheckoutSuccessPage() {
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-elevated">
                   <Heart className="h-5 w-5 opacity-40" />
                 </div>
                 <div>
@@ -105,7 +105,7 @@ export default function CheckoutSuccessPage() {
                 </div>
               </div>
               <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-surface-elevated">
                   <ShieldCheck className="h-5 w-5 opacity-40" />
                 </div>
                 <div>

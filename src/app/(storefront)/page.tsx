@@ -176,8 +176,7 @@ function HeroSection() {
         transition={{ duration: 2, repeat: Infinity }}
       >
         <div
-          className="h-10 w-6 rounded-full border-2 flex items-start justify-center pt-2"
-          style={{ borderColor: "rgba(255,255,255,0.15)" }}
+          className="h-10 w-6 rounded-full border-2 flex items-start justify-center pt-2 border-border"
         >
           <motion.div
             className="h-2 w-1 rounded-full"
@@ -327,8 +326,7 @@ function CategoriesSection() {
                     </p>
                   </div>
                   <motion.div
-                    className="absolute right-4 top-4 rounded-full p-2 opacity-0 transition-opacity group-hover:opacity-100"
-                    style={{ background: "rgba(255,255,255,0.1)" }}
+                    className="absolute right-4 top-4 rounded-full p-2 opacity-0 transition-opacity group-hover:opacity-100 bg-surface-elevated"
                   >
                     <ChevronRight className="h-4 w-4" />
                   </motion.div>
@@ -468,7 +466,7 @@ function FeaturedProductsSection() {
 
                   {/* Product Info */}
                   <div className="p-4">
-                    <h3 className="mb-1 text-sm font-semibold line-clamp-1 transition-colors group-hover:text-white">
+                    <h3 className="mb-1 text-sm font-semibold line-clamp-1 transition-colors group-hover:text-text-primary">
                       {product.name}
                     </h3>
                     <div className="flex items-center gap-2">
@@ -537,11 +535,7 @@ function CTASection() {
 
           <div className="relative z-10 mx-auto max-w-2xl text-center">
             <motion.div
-              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5"
-              style={{
-                background: "rgba(255,255,255,0.1)",
-                border: "1px solid rgba(255,255,255,0.15)",
-              }}
+              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 bg-surface-elevated border border-border"
             >
               <Sparkles className="h-3.5 w-3.5" style={{ color: "var(--theme-accent-secondary)" }} />
               <span className="text-xs font-semibold">LIMITED TIME OFFER</span>

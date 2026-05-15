@@ -13,8 +13,8 @@ export default function StorefrontLayout({
       <Navbar />
       <SearchOverlay />
       <CartDrawer />
-      {/* Fixed Header Spacer */}
-      <div className="h-16 md:h-20 shrink-0" aria-hidden="true" />
+      {/* Fixed Header Spacer with 10px extra gap */}
+      <div className="h-[74px] md:h-[90px] shrink-0" aria-hidden="true" />
       <main className="storefront-main flex-1">{children}</main>
       <Footer />
     </div>

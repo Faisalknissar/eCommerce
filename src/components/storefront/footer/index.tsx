@@ -87,7 +87,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group flex items-center gap-1 text-sm transition-colors hover:text-white"
+                      className="group flex items-center gap-1 text-sm transition-colors hover:text-primary"
                       style={{ color: "var(--theme-text-muted)" }}
                     >
                       {link.label}
@@ -108,7 +108,7 @@ export function Footer() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="group flex items-center gap-1 text-sm transition-colors hover:text-white"
+                      className="group flex items-center gap-1 text-sm transition-colors hover:text-primary"
                       style={{ color: "var(--theme-text-muted)" }}
                     >
                       {link.label}
@@ -148,8 +148,7 @@ export function Footer() {
 
           {/* Bottom Bar */}
           <div
-            className="mt-24 flex flex-col items-center justify-between gap-6 border-t pt-16 sm:flex-row"
-            style={{ borderColor: "rgba(255,255,255,0.06)" }}
+            className="mt-12 flex flex-col items-center justify-between gap-6 border-t border-border pt-8 sm:flex-row"
           >
             <p className="text-xs" style={{ color: "var(--theme-text-muted)" }}>
               © {currentYear} {APP_NAME}. All rights reserved.

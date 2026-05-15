@@ -20,6 +20,7 @@ import { useCartStore } from "@/stores/cart-store";
 import { useWishlistStore } from "@/stores/wishlist-store";
 import { useUIStore } from "@/stores/ui-store";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/shared/theme-toggle";
 import { APP_NAME, NAV_LINKS } from "@/lib/constants";
 
 export function Navbar() {
@@ -91,6 +92,8 @@ export function Navbar() {
 
             {/* Right Actions */}
             <div className="flex items-center gap-1 md:gap-2">
+              <ThemeToggle />
+              
               {/* Search */}
               <motion.button
                 onClick={() => setSearchOpen(true)}
@@ -179,7 +182,7 @@ export function Navbar() {
                           exit={{ opacity: 0, y: -10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <div className="border-b border-white/5 px-3 py-2 mb-1">
+                          <div className="border-b border-border px-3 py-2 mb-1">
                             <p className="text-sm font-semibold truncate">{session.user.name}</p>
                             <p className="text-xs truncate" style={{ color: "var(--theme-text-muted)" }}>
                               {session.user.email}
@@ -189,7 +192,7 @@ export function Navbar() {
                           {(userRole === "admin" || userRole === "manager") && (
                             <Link
                               href="/admin"
-                              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/5 transition-colors"
+                              className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-surface transition-colors"
                               onClick={() => setUserMenuOpen(false)}
                             >
                               <LayoutDashboard className="h-4 w-4" style={{ color: "var(--theme-accent-primary)" }} />
@@ -199,7 +202,7 @@ export function Navbar() {
 
                           <Link
                             href="/account"
-                            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/5 transition-colors"
+                            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-surface transition-colors"
                             onClick={() => setUserMenuOpen(false)}
                           >
                             <User className="h-4 w-4" />
@@ -208,20 +211,20 @@ export function Navbar() {
 
                           <Link
                             href="/orders"
-                            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/5 transition-colors"
+                            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-surface transition-colors"
                             onClick={() => setUserMenuOpen(false)}
                           >
                             <Package className="h-4 w-4" />
                             My Orders
                           </Link>
 
-                          <div className="border-t border-white/5 mt-1 pt-1">
+                          <div className="border-t border-border mt-1 pt-1">
                             <button
                               onClick={() => {
                                 setUserMenuOpen(false);
                                 signOut();
                               }}
-                              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-white/5 transition-colors"
+                              className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm hover:bg-surface transition-colors"
                               style={{ color: "var(--color-danger)" }}
                             >
                               <LogOut className="h-4 w-4" />
@@ -293,7 +296,7 @@ export function Navbar() {
                   >
                     <Link
                       href={link.href}
-                      className="block rounded-lg px-4 py-3 text-base font-medium hover:bg-white/5 transition-colors"
+                      className="block rounded-lg px-4 py-3 text-base font-medium hover:bg-surface transition-colors"
                       onClick={() => setMobileMenuOpen(false)}
                     >
                       {link.label}

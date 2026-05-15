@@ -46,29 +46,29 @@ export function CartDrawer() {
           />
 
           <motion.aside
-            className="fixed bottom-0 right-0 top-0 z-[201] flex w-full max-w-[460px] flex-col overflow-hidden border-l border-white/10 bg-[var(--theme-bg-secondary)] shadow-2xl"
+            className="fixed bottom-0 right-0 top-0 z-[201] flex w-full max-w-[460px] flex-col overflow-hidden border-l border-border bg-[var(--theme-bg-secondary)] shadow-2xl"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
             aria-label="Cart preview"
           >
-            <div className="border-b border-white/10 bg-white/[0.03] p-5 sm:p-6">
+            <div className="border-b border-border bg-surface-elevated p-5 sm:p-6">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-[var(--theme-accent-primary)]/15 text-[var(--theme-accent-primary)]">
                     <ShoppingBag className="h-5 w-5" />
                   </div>
                   <div>
-                    <h2 className="text-xl font-bold">Cart Preview</h2>
-                    <p className="text-xs text-white/50">
+                    <h2 className="text-xl font-bold text-primary">Cart Preview</h2>
+                    <p className="text-xs text-secondary">
                       Review items before checkout
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={() => setCartDrawerOpen(false)}
-                  className="rounded-full p-2 transition-colors hover:bg-white/10"
+                  className="rounded-full p-2 transition-colors hover:bg-surface"
                   aria-label="Close cart"
                 >
                   <X className="h-5 w-5" />
@@ -76,9 +76,9 @@ export function CartDrawer() {
               </div>
 
               {items.length > 0 && (
-                <div className="mt-5 rounded-lg border border-white/10 bg-black/20 p-4">
+                <div className="mt-5 rounded-lg border border-border bg-surface p-4">
                   <div className="mb-3 flex items-center justify-between gap-3 text-xs">
-                    <span className="flex items-center gap-2 font-medium text-white/70">
+                    <span className="flex items-center gap-2 font-medium text-secondary">
                       <Truck className="h-4 w-4 text-[var(--color-success)]" />
                       {shipping === 0
                         ? "Free shipping unlocked"
@@ -86,11 +86,11 @@ export function CartDrawer() {
                             freeShippingRemaining
                           )} away from free shipping`}
                     </span>
-                    <span className="font-bold text-white">
+                    <span className="font-bold text-primary">
                       {itemCount} item{itemCount === 1 ? "" : "s"}
                     </span>
                   </div>
-                  <div className="h-2 overflow-hidden rounded-full bg-white/10">
+                  <div className="h-2 overflow-hidden rounded-full bg-surface-elevated">
                     <motion.div
                       className="h-full rounded-full bg-[var(--color-success)]"
                       initial={{ width: 0 }}
@@ -104,7 +104,7 @@ export function CartDrawer() {
 
             {items.length > 0 && (
               <motion.div
-                className="border-b border-white/10 bg-[var(--color-success)]/10 px-5 py-3 text-sm text-[var(--color-success)] sm:px-6"
+                className="border-b border-border bg-[var(--color-success)]/10 px-5 py-3 text-sm text-[var(--color-success)] sm:px-6"
                 initial={{ opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
               >
@@ -118,11 +118,11 @@ export function CartDrawer() {
             <div className="flex-1 overflow-y-auto p-5 sm:p-6">
               {items.length === 0 ? (
                 <div className="flex h-full flex-col items-center justify-center text-center">
-                  <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-white/5">
-                    <ShoppingBag className="h-10 w-10 text-white/25" />
+                  <div className="mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-surface">
+                    <ShoppingBag className="h-10 w-10 text-text-muted/40" />
                   </div>
-                  <h3 className="text-lg font-semibold">Your cart is empty</h3>
-                  <p className="mt-2 max-w-xs text-sm text-white/50">
+                  <h3 className="text-lg font-semibold text-primary">Your cart is empty</h3>
+                  <p className="mt-2 max-w-xs text-sm text-secondary">
                     Add something special and it will appear here with a fast
                     checkout path.
                   </p>
@@ -139,14 +139,14 @@ export function CartDrawer() {
                   {items.map((item) => (
                     <motion.div
                       key={`${item.productId}-${item.variantId}`}
-                      className="group rounded-lg border border-white/10 bg-white/[0.03] p-3"
+                      className="group rounded-lg border border-border bg-surface p-3"
                       layout
                       initial={{ opacity: 0, x: 24 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 24 }}
                     >
                       <div className="flex gap-4">
-                        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-white/5">
+                        <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-surface-elevated">
                           <Image
                             src={item.imageUrl}
                             alt={item.productName}
@@ -166,13 +166,13 @@ export function CartDrawer() {
                                 {formatPrice(item.price * item.quantity)}
                               </p>
                             </div>
-                            <p className="mt-0.5 text-xs text-white/45">
+                            <p className="mt-0.5 text-xs text-muted">
                               {item.variantName}
                             </p>
                           </div>
 
                           <div className="mt-2 flex items-center justify-between">
-                            <div className="flex items-center gap-1 rounded-full border border-white/10 bg-black/20 p-1">
+                            <div className="flex items-center gap-1 rounded-full border border-border bg-surface-elevated p-1">
                               <button
                                 onClick={() =>
                                   updateQuantity(
@@ -180,7 +180,7 @@ export function CartDrawer() {
                                     item.quantity - 1
                                   )
                                 }
-                                className="rounded-full p-1.5 hover:bg-white/10 disabled:opacity-30"
+                                className="rounded-full p-1.5 hover:bg-surface disabled:opacity-30"
                                 disabled={item.quantity <= 1}
                                 aria-label={`Decrease ${item.productName} quantity`}
                               >
@@ -196,7 +196,7 @@ export function CartDrawer() {
                                     item.quantity + 1
                                   )
                                 }
-                                className="rounded-full p-1.5 hover:bg-white/10 disabled:opacity-30"
+                                className="rounded-full p-1.5 hover:bg-surface disabled:opacity-30"
                                 disabled={item.quantity >= item.maxStock}
                                 aria-label={`Increase ${item.productName} quantity`}
                               >
@@ -205,7 +205,7 @@ export function CartDrawer() {
                             </div>
                             <button
                               onClick={() => removeItem(item.variantId)}
-                              className="flex items-center gap-1 text-xs text-white/45 transition-colors hover:text-red-400"
+                              className="flex items-center gap-1 text-xs text-muted transition-colors hover:text-red-400"
                             >
                               <Trash2 className="h-3.5 w-3.5" />
                               Remove
@@ -220,14 +220,14 @@ export function CartDrawer() {
             </div>
 
             {items.length > 0 && (
-              <div className="border-t border-white/10 bg-white/[0.03] p-5 sm:p-6">
-                <div className="space-y-3 rounded-lg border border-white/10 bg-black/20 p-4">
+              <div className="border-t border-border bg-surface-elevated p-5 sm:p-6">
+                <div className="space-y-3 rounded-lg border border-border bg-surface p-4">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-white/55">Subtotal</span>
-                    <span className="font-bold">{formatPrice(subtotal)}</span>
+                    <span className="text-secondary">Subtotal</span>
+                    <span className="font-bold text-primary">{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-white/55">Estimated shipping</span>
+                    <span className="text-secondary">Estimated shipping</span>
                     <span
                       className={
                         shipping === 0
@@ -238,15 +238,15 @@ export function CartDrawer() {
                       {shipping === 0 ? "FREE" : formatPrice(shipping)}
                     </span>
                   </div>
-                  <div className="flex items-center justify-between border-t border-white/10 pt-3">
-                    <span className="font-semibold">Payable now</span>
+                  <div className="flex items-center justify-between border-t border-border pt-3">
+                    <span className="font-semibold text-primary">Payable now</span>
                     <span className="text-2xl font-black gradient-text">
                       {formatPrice(subtotal + shipping)}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-4 flex items-center justify-center gap-4 text-[11px] font-semibold uppercase tracking-wider text-white/40">
+                <div className="mt-4 flex items-center justify-center gap-4 text-[11px] font-semibold uppercase tracking-wider text-muted">
                   <span className="flex items-center gap-1.5">
                     <ShieldCheck className="h-3.5 w-3.5" /> Secure
                   </span>

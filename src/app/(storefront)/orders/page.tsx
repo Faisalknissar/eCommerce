@@ -42,7 +42,7 @@ export default function OrdersPage() {
             <h1 className="text-3xl font-black tracking-tight sm:text-4xl">
               My <span className="gradient-text">Orders</span>
             </h1>
-            <p className="mt-2 text-white/55">
+            <p className="mt-2 text-text-muted">
               Track purchases, invoices, delivery status, and support actions.
             </p>
           </div>

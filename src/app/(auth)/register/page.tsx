@@ -117,7 +117,7 @@ export default function RegisterPage() {
         </motion.button>
 
         <div className="relative mb-6 flex items-center">
-          <div className="flex-1 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }} />
+          <div className="flex-1 border-t border-border" />
           <span className="px-4 text-xs" style={{ color: "var(--theme-text-muted)" }}>or register with email</span>
           <div className="flex-1 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }} />
         </div>
@@ -208,7 +208,7 @@ export default function RegisterPage() {
             <span className="relative z-10 flex items-center gap-2">
               {isLoading ? (
                 <motion.div
-                  className="h-5 w-5 rounded-full border-2 border-white/20 border-t-white"
+                  className="h-5 w-5 rounded-full border-2 border-border border-t-[var(--theme-accent-primary)]"
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 />

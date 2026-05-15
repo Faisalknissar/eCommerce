@@ -109,7 +109,7 @@ function LoginForm() {
 
       {/* Divider */}
       <div className="relative mb-6 flex items-center">
-        <div className="flex-1 border-t" style={{ borderColor: "rgba(255,255,255,0.06)" }} />
+        <div className="flex-1 border-t border-border" />
         <span className="px-4 text-xs" style={{ color: "var(--theme-text-muted)" }}>
           or sign in with email
         </span>
@@ -218,10 +218,8 @@ function LoginForm() {
 
       {/* Demo credentials */}
       <div
-        className="mt-4 rounded-lg p-3 text-center text-xs"
+        className="mt-4 rounded-lg p-3 text-center text-xs bg-surface border border-border"
         style={{
-          background: "rgba(139, 92, 246, 0.06)",
-          border: "1px solid rgba(139, 92, 246, 0.1)",
           color: "var(--theme-text-muted)",
         }}
       >
@@ -237,8 +235,8 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center px-4 py-12">
       <Suspense fallback={
-        <div className="flex h-96 w-full max-w-md items-center justify-center rounded-2xl bg-white/5 animate-pulse">
-          <div className="h-10 w-10 rounded-full border-2 border-white/20 border-t-white animate-spin" />
+        <div className="flex h-96 w-full max-w-md items-center justify-center rounded-2xl bg-surface animate-pulse">
+          <div className="h-10 w-10 rounded-full border-2 border-border border-t-[var(--theme-accent-primary)] animate-spin" />
         </div>
       }>
         <LoginForm />

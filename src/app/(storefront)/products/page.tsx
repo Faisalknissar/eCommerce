@@ -192,21 +192,21 @@ export default function ProductsPage() {
       <div className="container-page">
         {/* Page Header */}
         <motion.div
-          className="mb-12"
+          className="mb-12 flex flex-wrap items-baseline justify-between gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
           <h1 className="text-3xl font-bold sm:text-4xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
             All <span className="gradient-text">Products</span>
           </h1>
-          <p className="mt-2" style={{ color: "var(--theme-text-secondary)" }}>
+          <p className="text-sm sm:text-base font-medium" style={{ color: "var(--theme-text-secondary)" }}>
             {filteredProducts.length} products found
           </p>
         </motion.div>
 
         {/* Toolbar */}
         <motion.div
-          className="glass-card mb-12 flex flex-wrap items-center gap-4 p-4 sm:p-5"
+          className="glass-card mb-16 flex flex-wrap items-center gap-4 p-4 sm:p-5"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
@@ -238,17 +238,17 @@ export default function ProductsPage() {
           </div>
 
           {/* View Toggle */}
-          <div className="flex rounded-lg overflow-hidden" style={{ border: "1px solid rgba(255,255,255,0.08)" }}>
+          <div className="flex rounded-lg overflow-hidden border border-border">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 transition-colors ${viewMode === "grid" ? "bg-white/10" : ""}`}
+              className={`p-2 transition-colors ${viewMode === "grid" ? "bg-secondary" : ""}`}
               aria-label="Grid view"
             >
               <Grid3X3 className="h-4 w-4" />
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 transition-colors ${viewMode === "list" ? "bg-white/10" : ""}`}
+              className={`p-2 transition-colors ${viewMode === "list" ? "bg-secondary" : ""}`}
               aria-label="List view"
             >
               <LayoutList className="h-4 w-4" />
@@ -308,7 +308,7 @@ export default function ProductsPage() {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
               >
-                <div className="absolute inset-0 bg-black/60" onClick={() => setShowFilters(false)} />
+                <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowFilters(false)} />
                 <motion.div
                   className="glass-strong absolute bottom-0 left-0 right-0 max-h-[60vh] rounded-t-2xl p-6"
                   initial={{ y: "100%" }}
@@ -329,7 +329,7 @@ export default function ProductsPage() {
                           selectedCategory === cat ? "font-semibold" : ""
                         }`}
                         style={{
-                          background: selectedCategory === cat ? "rgba(139, 92, 246, 0.1)" : "transparent",
+                          background: selectedCategory === cat ? "var(--theme-surface-elevated)" : "transparent",
                           color: selectedCategory === cat ? "var(--theme-accent-primary)" : "var(--theme-text-secondary)",
                         }}
                       >
@@ -390,7 +390,7 @@ export default function ProductsPage() {
 
                           {product.tag && (
                             <span
-                              className="absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-white"
+                              className="absolute left-3 top-3 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase text-white shadow-sm"
                               style={{
                                 background: "linear-gradient(135deg, var(--theme-accent-primary), var(--theme-accent-tertiary))",
                               }}
@@ -443,9 +443,9 @@ export default function ProductsPage() {
                                 <Star
                                   key={j}
                                   className="h-3 w-3"
-                                  fill={j < Math.floor(product.rating) ? "var(--color-warning)" : "transparent"}
+                                  fill={j < Math.floor(product.rating) ? "#ffa41c" : "transparent"}
                                   style={{
-                                    color: j < Math.floor(product.rating) ? "var(--color-warning)" : "var(--theme-text-muted)",
+                                    color: j < Math.floor(product.rating) ? "#ffa41c" : "var(--theme-text-muted)",
                                   }}
                                 />
                               ))}

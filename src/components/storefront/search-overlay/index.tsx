@@ -82,7 +82,7 @@ export function SearchOverlay() {
           >
             <div className="glass-strong overflow-hidden rounded-2xl">
               {/* Search Input */}
-              <div className="flex items-center gap-3 px-5 py-4" style={{ borderBottom: "1px solid rgba(255,255,255,0.06)" }}>
+              <div className="flex items-center gap-3 px-5 py-4 border-b border-border bg-surface-elevated">
                 <Search className="h-5 w-5 shrink-0" style={{ color: "var(--theme-accent-primary)" }} />
                 <input
                   ref={inputRef}
@@ -92,7 +92,7 @@ export function SearchOverlay() {
                   placeholder="Search products, categories..."
                   className="flex-1 bg-transparent text-base outline-none placeholder:text-[var(--theme-text-muted)]"
                 />
-                <kbd className="hidden rounded-md px-2 py-0.5 text-xs font-mono sm:block" style={{ background: "rgba(255,255,255,0.06)", color: "var(--theme-text-muted)" }}>
+                <kbd className="hidden rounded-md px-2 py-0.5 text-xs font-mono sm:block bg-surface border border-border" style={{ color: "var(--theme-text-muted)" }}>
                   ESC
                 </kbd>
                 <button onClick={() => setSearchOpen(false)}>
@@ -111,7 +111,7 @@ export function SearchOverlay() {
                             href={`/products/${item.slug}`}
                             onClick={() => setSearchOpen(false)}
                           >
-                            <div className="flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors hover:bg-white/5">
+                            <div className="flex items-center justify-between rounded-lg px-3 py-2.5 transition-colors hover:bg-secondary">
                               <div>
                                 <p className="text-sm font-medium">{item.name}</p>
                                 <p className="text-xs" style={{ color: "var(--theme-text-muted)" }}>
@@ -137,7 +137,7 @@ export function SearchOverlay() {
                     <Link
                       href={`/products?q=${encodeURIComponent(query)}`}
                       onClick={() => setSearchOpen(false)}
-                      className="mt-2 flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-white/5"
+                      className="mt-2 flex items-center justify-center gap-2 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors hover:bg-secondary"
                       style={{ color: "var(--theme-accent-primary)" }}
                     >
                       View all results for &ldquo;{query}&rdquo;
@@ -157,7 +157,7 @@ export function SearchOverlay() {
                           <button
                             key={term}
                             onClick={() => setQuery(term)}
-                            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-white/5"
+                            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors hover:bg-secondary"
                           >
                             <Clock className="h-3.5 w-3.5" style={{ color: "var(--theme-text-muted)" }} />
                             {term}

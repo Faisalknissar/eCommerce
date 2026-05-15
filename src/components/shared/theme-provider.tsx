@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useThemeStore, type ThemeData } from "@/stores/theme-store";
 
 interface ThemeProviderProps {
@@ -20,5 +21,14 @@ export function ThemeProvider({ children, initialTheme }: ThemeProviderProps) {
     }
   }, [initialTheme, applyTheme, setLoading]);
 
-  return <>{children}</>;
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="dark"
+      enableSystem
+      disableTransitionOnChange
+    >
+      {children}
+    </NextThemesProvider>
+  );
 }

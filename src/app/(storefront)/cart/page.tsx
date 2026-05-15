@@ -112,7 +112,7 @@ export default function CartPage() {
               {items.map((item, i) => (
                 <motion.div
                   key={item.variantId}
-                  className="glass-card group relative grid grid-cols-1 items-center gap-6 p-6 transition-all hover:bg-white/[0.04] md:grid-cols-12"
+                  className="glass-card group relative grid grid-cols-1 items-center gap-6 p-6 transition-all hover:bg-surface md:grid-cols-12"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1 }}
@@ -120,7 +120,7 @@ export default function CartPage() {
                 >
                   {/* Product Info */}
                   <div className="flex items-center gap-6 md:col-span-6">
-                    <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-white/5 to-white/[0.02]">
+                    <div className="relative h-28 w-28 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-surface to-surface-muted">
                       <Image
                         src={item.imageUrl}
                         alt={item.productName}
@@ -153,10 +153,10 @@ export default function CartPage() {
 
                   {/* Quantity Control */}
                   <div className="flex items-center justify-center md:col-span-3">
-                    <div className="flex items-center gap-4 rounded-full bg-black/20 p-1.5 px-4" style={{ border: "1px solid rgba(255,255,255,0.06)" }}>
+                    <div className="flex items-center gap-4 rounded-full bg-surface-elevated p-1.5 px-4" style={{ border: "1px solid var(--theme-border)" }}>
                       <button
                         onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                        className="rounded-full p-1 transition-colors hover:bg-white/10 disabled:opacity-20"
+                        className="rounded-full p-1 transition-colors hover:bg-surface disabled:opacity-20"
                         disabled={item.quantity <= 1}
                       >
                         <Minus className="h-4 w-4" />
@@ -164,7 +164,7 @@ export default function CartPage() {
                       <span className="min-w-[1.5rem] text-center text-lg font-bold">{item.quantity}</span>
                       <button
                         onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                        className="rounded-full p-1 transition-colors hover:bg-white/10 disabled:opacity-20"
+                        className="rounded-full p-1 transition-colors hover:bg-surface disabled:opacity-20"
                         disabled={item.quantity >= item.maxStock}
                       >
                         <Plus className="h-4 w-4" />
@@ -195,7 +195,7 @@ export default function CartPage() {
               transition={{ delay: 0.3 }}
             >
               <div className="glass-card overflow-hidden">
-                <div className="bg-white/[0.03] p-8">
+                <div className="bg-surface-elevated p-8">
                   <h2 className="text-2xl font-bold mb-6">Summary</h2>
                   <div className="space-y-5">
                     <div className="flex justify-between text-base">
@@ -230,7 +230,7 @@ export default function CartPage() {
                 </div>
 
                 <div className="p-8 space-y-6">
-                  <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                  <div className="flex items-center justify-between pt-4 border-t border-border">
                     <span className="text-lg font-bold">Total</span>
                     <span className="text-4xl font-black gradient-text tracking-tighter">
                       {formatPrice(grandTotal)}
@@ -246,7 +246,7 @@ export default function CartPage() {
                         placeholder="Coupon code"
                         value={promoCode}
                         onChange={(e) => setPromoCode(e.target.value)}
-                        className="w-full rounded-xl bg-white/5 border border-white/5 py-3 pl-11 text-sm font-medium focus:border-[var(--theme-accent-primary)] focus:outline-none transition-all"
+                        className="w-full rounded-xl bg-surface border border-border py-3 pl-11 text-sm font-medium focus:border-[var(--theme-accent-primary)] focus:outline-none transition-all"
                       />
                     </div>
                     <button
