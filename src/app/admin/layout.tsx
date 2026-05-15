@@ -23,6 +23,7 @@ import {
   Search,
   LogOut,
   Home,
+  Image as ImageIcon,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useUIStore } from "@/stores/ui-store";
@@ -41,6 +42,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Bell,
   ScrollText,
   Settings,
+  ImageIcon,
 };
 
 const navItems = [
@@ -53,6 +55,7 @@ const navItems = [
   { href: "/admin/reviews", label: "Reviews", icon: "Star" },
   { href: "/admin/themes", label: "Themes", icon: "Palette" },
   { href: "/admin/notifications", label: "Notifications", icon: "Bell" },
+  { href: "/admin/banners", label: "Banners", icon: "ImageIcon" },
   { href: "/admin/audit-logs", label: "Audit Logs", icon: "ScrollText" },
   { href: "/admin/settings", label: "Settings", icon: "Settings" },
 ];

@@ -21,168 +21,138 @@ function HeroSection() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0">
-        {/* Animated gradient orbs */}
-        <motion.div
-          className="absolute top-1/4 -left-32 h-96 w-96 rounded-full opacity-20 blur-[120px]"
+    <section ref={ref} className="relative min-h-[95vh] overflow-hidden flex items-center justify-center py-24">
+      {/* Immersive Background Elements */}
+      <div className="absolute inset-0 z-0">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10" 
+             style={{ background: "radial-gradient(circle at 15% 25%, var(--theme-accent-primary), transparent 45%), radial-gradient(circle at 85% 75%, var(--theme-accent-secondary), transparent 45%)" }} />
+        <motion.div 
+          className="absolute -top-[20%] -left-[10%] h-[70%] w-[70%] rounded-full opacity-[0.08] blur-[140px]"
           style={{ background: "var(--theme-accent-primary)" }}
-          animate={{
-            x: [0, 50, 0],
-            y: [0, -30, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ x: [0, 70, 0], y: [0, 40, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div
-          className="absolute bottom-1/4 right-0 h-80 w-80 rounded-full opacity-15 blur-[100px]"
+        <motion.div 
+          className="absolute -bottom-[20%] -right-[10%] h-[70%] w-[70%] rounded-full opacity-[0.08] blur-[140px]"
           style={{ background: "var(--theme-accent-secondary)" }}
-          animate={{
-            x: [0, -40, 0],
-            y: [0, 40, 0],
-            scale: [1, 1.15, 1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ x: [0, -70, 0], y: [0, -40, 0] }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         />
-        <motion.div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-64 w-64 rounded-full opacity-10 blur-[80px]"
-          style={{ background: "var(--theme-accent-tertiary)" }}
-          animate={{
-            scale: [1, 1.3, 1],
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-grid-pattern" />
-
-        {/* Radial fade */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(ellipse at center, transparent 0%, var(--theme-bg-primary) 80%)`,
-          }}
-        />
+        <div className="absolute inset-0 bg-grid-white/[0.02]" />
       </div>
 
-      <motion.div className="container-page relative z-10 flex flex-col items-center" style={{ y, opacity }}>
-        <div className="mx-auto max-w-4xl text-center">
-          {/* Badge */}
+      <motion.div
+        className="container-page relative z-10"
+        style={{ y, opacity }}
+      >
+        <div className="mx-auto max-w-6xl text-center">
+          {/* Enhanced Badge */}
           <motion.div
-            className="mb-6 inline-flex items-center gap-2 rounded-full px-4 py-1.5"
-            style={{
-              background: "rgba(139, 92, 246, 0.1)",
-              border: "1px solid rgba(139, 92, 246, 0.2)",
-            }}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
+            className="mb-10 inline-flex items-center gap-3 rounded-full px-6 py-2.5 bg-surface-elevated/40 backdrop-blur-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.3 }}
           >
-            <Sparkles className="h-3.5 w-3.5" style={{ color: "var(--theme-accent-primary)" }} />
-            <span className="text-xs font-semibold" style={{ color: "var(--theme-accent-primary)" }}>
-              NEW COLLECTION 2026
+            <div className="flex h-2 w-2 rounded-full bg-accent-primary animate-ping" />
+            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-white">
+              The Collection — 2026 Edition
             </span>
           </motion.div>
 
-          {/* Heading */}
+          {/* Cinematic Title */}
           <motion.h1
-            className="mb-6 text-4xl font-black leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+            className="mb-10 text-7xl font-black leading-[0.9] sm:text-[10rem] tracking-tighter text-white"
             style={{ fontFamily: "var(--theme-font-heading)" }}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            transition={{ duration: 1, delay: 0.2 }}
           >
-            Discover the{" "}
-            <span className="gradient-text">Future</span>
-            <br />
-            of Shopping
+            Design the <br />
+            <span className="gradient-text italic">Extraordinary</span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
-            className="mx-auto mb-8 max-w-2xl text-base sm:text-lg"
-            style={{ color: "var(--theme-text-secondary)" }}
-            initial={{ opacity: 0, y: 20 }}
+            className="mx-auto mb-14 max-w-3xl text-xl sm:text-2xl font-medium leading-relaxed text-white/50"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ duration: 1, delay: 0.4 }}
           >
-            Premium products, seamless experience. From cutting-edge electronics to handcrafted fashion —
-            curated for those who demand excellence.
+            Elevate your existence with curated masterpieces. We combine high-performance 
+            technology with timeless aesthetics for the modern visionary.
           </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Action Buttons */}
           <motion.div
-            className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
-            initial={{ opacity: 0, y: 20 }}
+            className="flex flex-col items-center justify-center gap-8 sm:flex-row"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
+            transition={{ duration: 1, delay: 0.6 }}
           >
             <Link href="/products">
               <motion.div
-                className="btn-primary group px-8 py-3.5 text-base"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                className="btn-primary h-18 px-12 text-sm font-black uppercase tracking-[0.2em] shadow-[0_20px_40px_rgba(var(--theme-accent-primary-rgb),0.3)]"
+                whileHover={{ scale: 1.05, boxShadow: "0 30px 60px rgba(var(--theme-accent-primary-rgb),0.4)" }}
+                whileTap={{ scale: 0.95 }}
               >
-                <span className="relative z-10 flex items-center gap-2">
-                  <ShoppingBag className="h-5 w-5" />
-                  Explore Products
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </span>
+                Start Exploring
+                <ArrowRight className="ml-4 h-5 w-5" />
               </motion.div>
             </Link>
             <Link href="/products?featured=true">
               <motion.div
-                className="btn-secondary px-8 py-3.5 text-base"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
+                className="h-18 px-12 flex items-center justify-center text-sm font-black uppercase tracking-[0.2em] text-white border border-white/10 rounded-full bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                View Collections
+                View Lookbook
               </motion.div>
             </Link>
           </motion.div>
 
-          {/* Stats */}
+          {/* Floating Glass Stats */}
           <motion.div
-            className="mt-16 grid grid-cols-3 gap-8"
-            initial={{ opacity: 0, y: 30 }}
+            className="mt-32 grid grid-cols-1 sm:grid-cols-3 gap-8"
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9 }}
+            transition={{ duration: 1.2, delay: 0.8 }}
           >
             {[
-              { value: "50K+", label: "Happy Customers" },
-              { value: "10K+", label: "Products" },
+              { value: "50K+", label: "Elite Members" },
+              { value: "10K+", label: "Masterpieces" },
               { value: "99.9%", label: "Uptime" },
             ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-2xl font-bold sm:text-3xl gradient-text">{stat.value}</p>
-                <p className="mt-1 text-xs sm:text-sm" style={{ color: "var(--theme-text-muted)" }}>
+              <motion.div 
+                key={i} 
+                className="glass-card group p-10 bg-white/[0.01] border-white/5 hover:bg-white/[0.03] transition-all"
+                whileHover={{ y: -15, scale: 1.02 }}
+              >
+                <p className="text-5xl font-black gradient-text mb-3">{stat.value}</p>
+                <p className="text-xs font-black uppercase tracking-[0.3em] opacity-40 text-white">
                   {stat.label}
                 </p>
-              </div>
+                <div className="mx-auto mt-6 h-1 w-0 bg-accent-primary transition-all duration-700 group-hover:w-16" />
+              </motion.div>
             ))}
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator (Kept as requested) */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
         animate={{ y: [0, 10, 0] }}
         transition={{ duration: 2, repeat: Infinity }}
       >
-        <div
-          className="h-10 w-6 rounded-full border-2 flex items-start justify-center pt-2 border-border"
-        >
-          <motion.div
-            className="h-2 w-1 rounded-full"
-            style={{ background: "var(--theme-accent-primary)" }}
-            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
+        <div className="h-12 w-7 rounded-full border-2 flex items-start justify-center pt-2.5 border-white/10 backdrop-blur-md">
+          <motion.div 
+            className="h-2.5 w-1.5 rounded-full bg-accent-primary"
+            animate={{ y: [0, 15, 0], opacity: [1, 0.5, 1] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           />
         </div>
       </motion.div>
@@ -196,62 +166,74 @@ function FeaturesSection() {
     {
       icon: Zap,
       title: "Lightning Fast",
-      description: "Optimized for speed with edge caching and instant page loads.",
+      description: "Optimized for speed",
       color: "var(--theme-accent-secondary)",
     },
     {
       icon: Shield,
       title: "Secure Payments",
-      description: "Enterprise-grade security with Stripe, Razorpay, and UPI support.",
+      description: "Stripe & Razorpay",
       color: "var(--theme-accent-primary)",
     },
     {
       icon: Truck,
       title: "Free Shipping",
-      description: "Complimentary delivery on orders above ₹999. Track in real-time.",
+      description: "On orders above ₹999",
       color: "var(--color-success)",
     },
     {
       icon: Star,
       title: "Premium Quality",
-      description: "Every product is handpicked and quality-verified by our experts.",
+      description: "Handpicked products",
       color: "var(--theme-accent-tertiary)",
     },
   ];
 
   return (
-    <section className="py-24">
-      <div className="container-page">
+    <section className="relative z-20 w-full min-h-[12vh] border-y border-white/5 bg-surface-elevated/90 backdrop-blur-3xl flex items-center">
+      <div className="mx-auto w-full max-w-[1920px]">
         <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
-          }}
+          className="flex flex-col divide-y divide-white/5 sm:flex-row sm:divide-x sm:divide-y-0"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1 }}
         >
           {features.map((feature, i) => (
             <motion.div
               key={i}
-              className="glass-card group p-6"
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.5 }}
+              className="group relative flex flex-1 items-center justify-center gap-6 py-12 px-8 transition-all duration-500 hover:bg-white/[0.04]"
             >
+              {/* Subtle Ambient Glow */}
+              <div 
+                className="absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-10 pointer-events-none"
+                style={{ 
+                  background: `radial-gradient(circle at center, ${feature.color}, transparent 70%)` 
+                }}
+              />
+
               <div
-                className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl transition-transform group-hover:scale-110"
-                style={{ background: `color-mix(in srgb, ${feature.color} 15%, transparent)` }}
+                className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl transition-all duration-700 group-hover:scale-110 group-hover:rotate-6 shadow-2xl"
+                style={{ 
+                  background: `linear-gradient(135deg, color-mix(in srgb, ${feature.color} 30%, transparent), color-mix(in srgb, ${feature.color} 10%, transparent))`,
+                  boxShadow: `0 8px 30px -8px ${feature.color}66`,
+                  border: `1px solid color-mix(in srgb, ${feature.color} 30%, transparent)`
+                }}
               >
-                <feature.icon className="h-6 w-6" style={{ color: feature.color }} />
+                <feature.icon className="h-7 w-7 filter drop-shadow-lg" style={{ color: feature.color }} />
               </div>
-              <h3 className="mb-2 text-lg font-bold">{feature.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--theme-text-secondary)" }}>
-                {feature.description}
-              </p>
+              <div className="relative">
+                <h3 className="text-base font-black tracking-tight mb-1 uppercase italic">{feature.title}</h3>
+                <p className="text-[10px] font-semibold leading-tight tracking-wide opacity-50 uppercase" style={{ color: "var(--theme-text-secondary)" }}>
+                  {feature.description}
+                </p>
+              </div>
+
+              {/* Decorative Corner Accent */}
+              <div 
+                className="absolute top-0 right-0 h-[2px] w-0 transition-all duration-500 group-hover:w-full"
+                style={{ background: `linear-gradient(to right, transparent, ${feature.color}44)` }}
+              />
             </motion.div>
           ))}
         </motion.div>
@@ -263,78 +245,135 @@ function FeaturesSection() {
 // ---- Categories Bento Grid ----
 function CategoriesSection() {
   const categories = [
-    { name: "Electronics", slug: "electronics", emoji: "⚡", gradient: "from-purple-600/20 to-blue-600/20", count: "2.4K+" },
-    { name: "Fashion", slug: "fashion", emoji: "👗", gradient: "from-pink-600/20 to-rose-600/20", count: "1.8K+" },
-    { name: "Home & Living", slug: "home-living", emoji: "🏡", gradient: "from-green-600/20 to-emerald-600/20", count: "950+" },
-    { name: "Digital Products", slug: "digital-products", emoji: "💾", gradient: "from-cyan-600/20 to-teal-600/20", count: "540+" },
-    { name: "Services", slug: "services", emoji: "🎯", gradient: "from-amber-600/20 to-orange-600/20", count: "320+" },
-    { name: "Sports & Fitness", slug: "sports-fitness", emoji: "🏋️", gradient: "from-red-600/20 to-orange-600/20", count: "780+" },
+    {
+      name: "Electronics",
+      slug: "electronics",
+      count: "2.4K+",
+      image: "/images/categories/electronics.png",
+      span: "lg:col-span-2 lg:row-span-2",
+      color: "from-blue-600/20 to-cyan-600/20",
+    },
+    {
+      name: "Fashion",
+      slug: "fashion",
+      count: "1.8K+",
+      image: "/images/categories/fashion.png",
+      span: "lg:col-span-1 lg:row-span-2",
+      color: "from-purple-600/20 to-pink-600/20",
+    },
+    {
+      name: "Home & Living",
+      slug: "home-living",
+      count: "950+",
+      image: "/images/categories/home.png",
+      span: "lg:col-span-1 lg:row-span-1",
+      color: "from-orange-600/20 to-yellow-600/20",
+    },
+    {
+      name: "Sports & Fitness",
+      slug: "sports-fitness",
+      count: "780+",
+      image: "/images/categories/sports.png",
+      span: "lg:col-span-1 lg:row-span-1",
+      color: "from-green-600/20 to-emerald-600/20",
+    },
+    {
+      name: "Digital Products",
+      slug: "digital-products",
+      count: "540+",
+      image: "/images/categories/digital.png",
+      span: "lg:col-span-1 lg:row-span-1",
+      color: "from-indigo-600/20 to-violet-600/20",
+    },
+    {
+      name: "Services",
+      slug: "services",
+      count: "320+",
+      image: "/images/categories/services.png",
+      span: "lg:col-span-1 lg:row-span-1",
+      color: "from-rose-600/20 to-red-600/20",
+    },
   ];
 
   return (
-    <section className="py-24">
-      <div className="container-page">
+    <section className="py-32 relative overflow-hidden bg-black/50">
+      <div className="container-page relative z-10">
         {/* Section Header */}
         <motion.div
-          className="mb-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
+          className="mb-20 text-center"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
         >
-          <h2 className="mb-3 text-3xl font-bold sm:text-4xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
-            Shop by <span className="gradient-text">Category</span>
+          <motion.span
+            className="mb-4 inline-block text-xs font-black uppercase tracking-[0.3em] text-accent-primary"
+            initial={{ letterSpacing: "0.1em" }}
+            whileInView={{ letterSpacing: "0.3em" }}
+            transition={{ duration: 1 }}
+          >
+            Explore Collections
+          </motion.span>
+          <h2 className="mb-6 text-5xl font-black sm:text-7xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
+            Shop by <span className="gradient-text italic">Category</span>
           </h2>
-          <p className="text-base" style={{ color: "var(--theme-text-secondary)" }}>
-            Browse our curated collections across every category
-          </p>
+          <div className="mx-auto h-1 w-20 bg-gradient-to-r from-accent-primary to-accent-secondary" />
         </motion.div>
 
-        {/* Bento Grid */}
-        <motion.div
-          className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-3 lg:gap-6"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.08 } },
-          }}
-        >
+        {/* Modern Bento Grid */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:grid-rows-3 lg:gap-6 h-auto lg:h-[900px]">
           {categories.map((cat, i) => (
             <motion.div
               key={cat.slug}
-              variants={{
-                hidden: { opacity: 0, scale: 0.95 },
-                visible: { opacity: 1, scale: 1 },
-              }}
-              transition={{ duration: 0.4 }}
-              className={i === 0 || i === 5 ? "sm:col-span-1 lg:col-span-1" : ""}
+              className={`group relative overflow-hidden rounded-[2.5rem] bg-surface-elevated transition-all duration-700 ${cat.span}`}
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              <Link href={`/products?category=${cat.slug}`}>
-                <motion.div
-                  className={`glass-card group relative flex h-40 flex-col justify-between overflow-hidden p-5 sm:h-48 bg-gradient-to-br ${cat.gradient}`}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <div>
-                    <span className="text-3xl sm:text-4xl">{cat.emoji}</span>
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold sm:text-lg">{cat.name}</h3>
-                    <p className="text-xs" style={{ color: "var(--theme-text-muted)" }}>
-                      {cat.count} products
-                    </p>
-                  </div>
+              <Link href={`/products?category=${cat.slug}`} className="block h-full w-full">
+                {/* Background Image with Zoom Effect */}
+                <div className="absolute inset-0 overflow-hidden">
+                  <motion.img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
+                  {/* Modern Overlays */}
+                  <div className={`absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-80 transition-opacity duration-700 group-hover:opacity-90 bg-gradient-to-br ${cat.color}`} />
+                </div>
+
+                {/* Content Overlay */}
+                <div className="relative z-20 flex h-full flex-col justify-end p-8 sm:p-10">
                   <motion.div
-                    className="absolute right-4 top-4 rounded-full p-2 opacity-0 transition-opacity group-hover:opacity-100 bg-surface-elevated"
+                    className="translate-y-4 transition-transform duration-500 group-hover:translate-y-0"
                   >
-                    <ChevronRight className="h-4 w-4" />
+                    <div className="mb-3 flex items-center gap-3">
+                      <div className="h-[1px] w-8 bg-accent-primary transition-all duration-500 group-hover:w-12" />
+                      <span className="text-xs font-black uppercase tracking-widest text-accent-primary">
+                        {cat.count} Products
+                      </span>
+                    </div>
+                    <h3 className="text-3xl font-black text-white sm:text-4xl tracking-tighter transition-all duration-500 group-hover:tracking-normal group-hover:scale-105 origin-left">
+                      {cat.name}
+                    </h3>
                   </motion.div>
-                </motion.div>
+
+                  {/* Glass Action Button */}
+                  <div className="mt-6 flex items-center gap-4 opacity-0 transition-all duration-500 group-hover:mt-8 group-hover:opacity-100">
+                    <span className="text-sm font-bold uppercase tracking-widest text-white">View Collection</span>
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 transition-transform hover:scale-110">
+                      <ChevronRight className="h-5 w-5 text-white" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Animated Inner Glow */}
+                <div className="absolute inset-0 border-[1px] border-white/0 transition-all duration-700 group-hover:border-white/10 rounded-[2.5rem] pointer-events-none" />
               </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -349,15 +388,17 @@ function FeaturedProductsSection() {
       comparePrice: "₹18,999",
       slug: "quantum-pro-wireless-headphones",
       tag: "Best Seller",
-      gradient: "from-purple-900/30 to-blue-900/30",
+      image: "/images/products/featured_headphone.png",
+      color: "from-blue-600/20 to-purple-600/20",
     },
     {
       name: "NeoVibe Smart Watch",
       price: "₹24,999",
       comparePrice: "₹34,999",
       slug: "neovibe-smart-watch-ultra",
-      tag: "New",
-      gradient: "from-cyan-900/30 to-teal-900/30",
+      tag: "New Arrival",
+      image: "/images/categories/electronics.png",
+      color: "from-cyan-600/20 to-teal-600/20",
     },
     {
       name: "Aether Leather Jacket",
@@ -365,144 +406,116 @@ function FeaturedProductsSection() {
       comparePrice: "₹22,999",
       slug: "aether-premium-leather-jacket",
       tag: "Trending",
-      gradient: "from-pink-900/30 to-rose-900/30",
+      image: "/images/categories/fashion.png",
+      color: "from-pink-600/20 to-rose-600/20",
     },
     {
       name: "Full-Stack Masterclass",
       price: "₹4,999",
       comparePrice: "₹12,999",
       slug: "full-stack-development-masterclass",
-      tag: "62% Off",
-      gradient: "from-amber-900/30 to-orange-900/30",
+      tag: "Save 62%",
+      image: "/images/categories/digital.png",
+      color: "from-indigo-600/20 to-violet-600/20",
     },
   ];
 
   return (
-    <section className="py-24" style={{ background: "var(--theme-bg-secondary)" }}>
+    <section className="py-32 relative overflow-hidden bg-surface-elevated/50">
       <div className="container-page">
         {/* Section Header */}
         <motion.div
-          className="mb-12 flex flex-col items-center justify-between gap-4 sm:flex-row"
-          initial={{ opacity: 0, y: 20 }}
+          className="mb-20 flex flex-col items-end justify-between gap-8 sm:flex-row"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
         >
-          <div>
-            <h2 className="mb-2 text-3xl font-bold sm:text-4xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
+          <div className="max-w-xl">
+            <motion.div
+              className="mb-4 inline-block rounded-full bg-accent-primary/10 px-4 py-1 text-xs font-black uppercase tracking-widest text-accent-primary"
+            >
+              Top Picks
+            </motion.div>
+            <h2 className="mb-4 text-5xl font-black sm:text-6xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
               Featured <span className="gradient-text">Products</span>
             </h2>
-            <p style={{ color: "var(--theme-text-secondary)" }}>
-              Handpicked products for you
+            <p className="text-lg" style={{ color: "var(--theme-text-secondary)" }}>
+              Experience the pinnacle of design and performance with our handpicked collection.
             </p>
           </div>
-          <Link href="/products?featured=true">
+          <Link href="/products">
             <motion.div
-              className="btn-secondary group"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="btn-primary group h-14 px-8 text-sm font-black uppercase tracking-widest"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
-              View All
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+              View Collection
+              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-2" />
             </motion.div>
           </Link>
         </motion.div>
 
         {/* Product Grid */}
-        <motion.div
-          className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-50px" }}
-          variants={{
-            hidden: {},
-            visible: { transition: { staggerChildren: 0.1 } },
-          }}
-        >
-          {products.map((product) => (
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          {products.map((product, i) => (
             <motion.div
               key={product.slug}
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              transition={{ duration: 0.5 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.1 }}
             >
-              <Link href={`/products/${product.slug}`}>
-                <motion.div
-                  className="glass-card group overflow-hidden p-0"
-                  whileHover={{ y: -5 }}
-                >
-                  {/* Product Image Placeholder */}
-                  <div
-                    className={`relative flex h-56 items-center justify-center bg-gradient-to-br ${product.gradient}`}
-                  >
-                    <div className="text-6xl opacity-30">📦</div>
+              <Link href={`/products/${product.slug}`} className="group block">
+                <div className="relative mb-6 overflow-hidden rounded-[2rem] bg-surface-elevated aspect-[4/5] shadow-xl transition-all duration-700 group-hover:shadow-[0_40px_80px_-15px_rgba(0,0,0,0.4)] group-hover:-translate-y-2">
+                  {/* Background Glow */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${product.color} opacity-30 transition-opacity duration-700 group-hover:opacity-50`} />
+                  
+                  {/* Product Image */}
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110"
+                  />
 
-                    {/* Tag */}
-                    <div
-                      className="absolute left-3 top-3 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white"
-                      style={{
-                        background: "linear-gradient(135deg, var(--theme-accent-primary), var(--theme-accent-tertiary))",
-                      }}
-                    >
+                  {/* Badges */}
+                  <div className="absolute left-6 top-6">
+                    <div className="rounded-full bg-white/10 backdrop-blur-md px-4 py-1.5 text-[10px] font-black uppercase tracking-widest text-white border border-white/20">
                       {product.tag}
                     </div>
-
-                    {/* Quick Actions */}
-                    <motion.div
-                      className="absolute bottom-3 right-3 flex gap-2"
-                      initial={{ opacity: 0, y: 10 }}
-                      whileHover={{ opacity: 1, y: 0 }}
-                    >
-                      <motion.button
-                        className="glass flex h-9 w-9 items-center justify-center rounded-full"
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.9 }}
-                      >
-                        <ShoppingBag className="h-4 w-4" />
-                      </motion.button>
-                    </motion.div>
                   </div>
 
-                  {/* Product Info */}
-                  <div className="p-4">
-                    <h3 className="mb-1 text-sm font-semibold line-clamp-1 transition-colors group-hover:text-text-primary">
-                      {product.name}
-                    </h3>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-bold gradient-text">
-                        {product.price}
-                      </span>
+                  {/* Quick View Button */}
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <div className="h-16 w-16 flex items-center justify-center rounded-full bg-white text-black shadow-2xl transition-transform hover:scale-110">
+                      <ShoppingBag className="h-6 w-6" />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Product Meta */}
+                <div className="px-2">
+                  <h3 className="mb-2 text-xl font-black tracking-tight group-hover:text-accent-primary transition-colors">
+                    {product.name}
+                  </h3>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="text-2xl font-black gradient-text">{product.price}</span>
                       {product.comparePrice && (
-                        <span
-                          className="text-sm line-through"
-                          style={{ color: "var(--theme-text-muted)" }}
-                        >
+                        <span className="text-sm font-medium line-through opacity-40">
                           {product.comparePrice}
                         </span>
                       )}
                     </div>
-                    <div className="mt-2 flex items-center gap-1">
-                      {Array.from({ length: 5 }).map((_, i) => (
-                        <Star
-                          key={i}
-                          className="h-3 w-3"
-                          fill={i < 4 ? "var(--color-warning)" : "transparent"}
-                          style={{
-                            color: i < 4 ? "var(--color-warning)" : "var(--theme-text-muted)",
-                          }}
-                        />
-                      ))}
-                      <span className="ml-1 text-xs" style={{ color: "var(--theme-text-muted)" }}>
-                        (128)
-                      </span>
+                    <div className="flex items-center gap-1">
+                      <Star className="h-3 w-3 fill-yellow-400 text-yellow-400" />
+                      <span className="text-xs font-bold opacity-60">4.9</span>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               </Link>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -511,55 +524,57 @@ function FeaturedProductsSection() {
 // ---- CTA Banner ----
 function CTASection() {
   return (
-    <section className="py-24">
-      <div className="container-page">
-        <motion.div
-          className="glass-card relative overflow-hidden p-8 sm:p-12 md:p-16"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          {/* Background gradient */}
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              background: "linear-gradient(135deg, var(--theme-accent-primary), var(--theme-accent-secondary))",
-            }}
-          />
-          <div
-            className="absolute inset-0"
-            style={{
-              background: "radial-gradient(ellipse at top right, transparent 30%, var(--theme-bg-primary) 80%)",
-            }}
-          />
+    <section className="py-32 relative overflow-hidden">
+      {/* Hyper-Glow Background */}
+      <div className="absolute inset-0 bg-black">
+        <div className="absolute top-0 left-0 h-full w-full opacity-20"
+             style={{ background: "radial-gradient(circle at 20% 50%, var(--theme-accent-primary), transparent 50%), radial-gradient(circle at 80% 50%, var(--theme-accent-secondary), transparent 50%)" }} />
+      </div>
 
-          <div className="relative z-10 mx-auto max-w-2xl text-center">
+      <div className="container-page relative z-10">
+        <motion.div
+          className="relative overflow-hidden rounded-[3rem] p-12 sm:p-20 border border-white/10"
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          {/* Glass Overlay */}
+          <div className="absolute inset-0 bg-surface-elevated/40 backdrop-blur-3xl" />
+          
+          <div className="relative z-10 mx-auto max-w-4xl text-center">
             <motion.div
-              className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-1.5 bg-surface-elevated border border-border"
+              className="mb-8 inline-flex items-center gap-2 rounded-full px-6 py-2 bg-white/5 border border-white/10 backdrop-blur-md"
+              animate={{ y: [0, -5, 0] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
-              <Sparkles className="h-3.5 w-3.5" style={{ color: "var(--theme-accent-secondary)" }} />
-              <span className="text-xs font-semibold">LIMITED TIME OFFER</span>
+              <Sparkles className="h-4 w-4 text-accent-primary" />
+              <span className="text-xs font-black uppercase tracking-[0.2em] text-white">Unleash the Potential</span>
             </motion.div>
 
-            <h2 className="mb-4 text-3xl font-bold sm:text-4xl md:text-5xl" style={{ fontFamily: "var(--theme-font-heading)" }}>
-              Get <span className="gradient-text">10% Off</span> Your First Order
+            <h2 className="mb-8 text-5xl font-black sm:text-7xl leading-none text-white tracking-tighter" style={{ fontFamily: "var(--theme-font-heading)" }}>
+              Get <span className="gradient-text italic">10% OFF</span> Your<br className="hidden sm:block" /> First Masterpiece
             </h2>
-            <p className="mb-8" style={{ color: "var(--theme-text-secondary)" }}>
-              Use code <span className="font-mono font-bold" style={{ color: "var(--theme-accent-secondary)" }}>WELCOME10</span> at checkout.
-              Valid for new customers only.
+            
+            <p className="mb-12 text-lg sm:text-xl font-medium text-white/60 mx-auto max-w-2xl">
+              Join the future of luxury shopping. Use code <span className="text-white font-black">WELCOME10</span> at checkout to unlock your exclusive advantage.
             </p>
-            <Link href="/products">
-              <motion.div
-                className="btn-primary inline-flex px-8 py-3.5 text-base"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-              >
-                <span className="relative z-10 flex items-center gap-2">
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              <Link href="/products">
+                <motion.div
+                  className="btn-primary h-16 px-10 text-sm font-black uppercase tracking-widest"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
                   Start Shopping
-                  <ArrowRight className="h-4 w-4" />
-                </span>
-              </motion.div>
-            </Link>
+                  <ArrowRight className="ml-3 h-5 w-5" />
+                </motion.div>
+              </Link>
+              <button className="h-16 px-10 text-sm font-black uppercase tracking-widest text-white border border-white/20 rounded-full hover:bg-white/10 transition-colors">
+                Learn More
+              </button>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -567,12 +582,15 @@ function CTASection() {
   );
 }
 
+import { HeroBannerSlider } from "@/components/storefront/hero-banner-slider";
+
 // ---- Main Home Page ----
 export default function HomePage() {
   return (
     <div className="relative">
-      <HeroSection />
+      <HeroBannerSlider />
       <FeaturesSection />
+      <HeroSection />
       <CategoriesSection />
       <FeaturedProductsSection />
       <CTASection />

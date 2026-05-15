@@ -447,7 +447,7 @@ export const auditLogsRelations = relations(auditLogs, ({ one }) => ({
 }));
 
 // ============================================================
-// SETTINGS
+// SETTINGS & BANNERS
 // ============================================================
 
 export const settings = pgTable("settings", {
@@ -456,6 +456,19 @@ export const settings = pgTable("settings", {
   value: text("value").notNull(),
   group: text("group").notNull().default("general"), // general, payment, email, shipping
   description: text("description"),
+  updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const banners = pgTable("banners", {
+  id: text("id").primaryKey().$defaultFn(generateId),
+  title: text("title"),
+  subtitle: text("subtitle"),
+  imageUrl: text("image_url").notNull(),
+  link: text("link"),
+  buttonText: text("button_text").default("Shop Now"),
+  position: integer("position").default(0),
+  isActive: boolean("is_active").default(true),
+  createdAt: text("created_at").notNull().$defaultFn(() => new Date().toISOString()),
   updatedAt: text("updated_at").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
